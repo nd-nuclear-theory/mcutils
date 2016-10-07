@@ -2,7 +2,7 @@
 # project configuration
 ################################
 
-libname = mcpp
+libname = mcutils
 
 # modules -- header-only
 modules_h = arithmetic vector_tuple memoizer profiling
