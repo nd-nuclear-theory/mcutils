@@ -37,7 +37,7 @@ void ParsingError(const std::string& message, int line_count, const std::string&
   std::cerr << "Input line " << line_count << ": " << line  << std::endl;
   std::exit(EXIT_FAILURE);
 }
-	
+
 void ParsingCheck(std::istringstream& line_stream, int line_count, const std::string& line)
 {
   if (!line_stream)
