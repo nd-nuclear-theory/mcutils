@@ -10,27 +10,29 @@
 
 #include <cstdlib>
 
-void OpenCheck(bool success, const std::string& filename)
-{
-  if (!success)
-    {
-      std::cerr << std::endl;
-      std::cerr << "Failed to open file: " << filename << std::endl;
-      std::exit(EXIT_FAILURE);
-    }
-}
-
-void StreamCheck(bool success, const std::string& filename)
+void StreamCheck(bool success, const std::string& filename, const std::string& message)
 {
   if (!success)
     {
       std::cerr << std::endl;
       std::cerr << "File access failure: " << filename << std::endl;
+      std::cerr << message << std::endl;
       std::exit(EXIT_FAILURE);
     }
 }
 
-void ParsingError(const std::string& message, int line_count, const std::string& line)
+void OpenCheck(bool success, const std::string& filename)
+{
+  // if (!success)
+  //   {
+  //     std::cerr << std::endl;
+  //     std::cerr << "Failed to open file: " << filename << std::endl;
+  //     std::exit(EXIT_FAILURE);
+  //   }
+  StreamCheck(success,filename, "Failed to open file");
+}
+
+void ParsingError(int line_count, const std::string& line, const std::string& message)
 {
   std::cerr << std::endl;
   std::cerr << message << std::endl;
@@ -41,5 +43,5 @@ void ParsingError(const std::string& message, int line_count, const std::string&
 void ParsingCheck(std::istringstream& line_stream, int line_count, const std::string& line)
 {
   if (!line_stream)
-    ParsingError("Failed parsing line (missing or incorrect arguments)", line_count, line);
+    ParsingError(line_count,line,"Failed parsing line (missing or incorrect arguments)");
 }

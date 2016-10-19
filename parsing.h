@@ -9,6 +9,10 @@
   3/10/16 (mac): Extracted from mfdn_h2.
   7/26/16 (mac): Add function StreamCheck.
   10/11/16 (mac): Introduce prototype for ParsingError to header file.
+  10/19/16 (mac):
+    - OpenCheck: Deprecated in favor of StreamCheck.
+    - StreamCheck: Add user-provided error message.
+    - ParsingError: Reorder arguments for consistency.
 
 ****************************************************************/
 
@@ -19,8 +23,31 @@
 #include <sstream>
 #include <string>
 
+void StreamCheck(bool success, const std::string& filename, const std::string& message);
+// Check stream status and, if in failure state, terminate with error
+// message indicating stream access failure.
+//
+// Arguments:
+//   success (bool) : access status
+//   filename (string) : file name to use in error messasge
+//   message (string) : general error message
+//
+// The success parameter was meant to be used with automatic
+// conversion from stream to bool, but explicit conversion
+// bool(stream) may be needed (e.g., C++11 under gcc 5) and is thus
+// more portable.
+//
+// Example:
+//   StreamCheck(bool(in_stream),in_stream_name,"Failed to open file");
+//   StreamCheck(bool(in_stream),in_stream_name,"Failure while writing header");
+
 void OpenCheck(bool success, const std::string& filename);
-// Terminates with error message indicating stream open failure.
+// Check stream status and, if in failure state, terminate with error
+// message indicating stream open failure.
+//
+// DEPRECATED in favor of StreamCheck with appropriate error message:
+//
+//   StreamCheck(bool(in_stream),in_stream_name,"Failed to open input file");
 //
 // Arguments:
 //   success (bool) : access status
@@ -34,20 +61,16 @@ void OpenCheck(bool success, const std::string& filename);
 // Example:
 //   OpenCheck(bool(in_stream),in_stream_name);
 
-void StreamCheck(bool success, const std::string& filename);
-// Terminates with error message indicating stream access failure.
+void ParsingError(int line_count, const std::string& line, const std::string& message);
+// Generate error message indicating line of input.
+//
+// Limitations: Would ideally also support arguments to give filename
+// and optional supplementary information on expected content.
 //
 // Arguments:
-//   success (bool) : access status
-//   filename (string) : file name to use in error messasge
-//
-// The success parameter was meant to be used with automatic
-// conversion from stream to bool, but explicit conversion
-// bool(stream) may be needed (e.g., C++11 under gcc 5) and is thus
-// more portable.
-//
-// Example:
-//   StreamCheck(bool(in_stream),in_stream_name);
+//   line_count (int) : line count for error message
+//   line (string) : line text for error message
+//   message (string) : general error message
 
 void ParsingCheck(std::istringstream& line_stream, int line_count, const std::string& line);
 // Provide error message upon stream extraction failure for line of input.
@@ -81,17 +104,5 @@ void ParsingCheck(std::istringstream& line_stream, int line_count, const std::st
 //      // do stuff with input
 //      ...
 //    }
-
-void ParsingError(const std::string& message, int line_count, const std::string& line);
-// Provide error message on general error in interpreting line of input.
-//
-// Limitations: Would ideally also support arguments to give filename
-// and optional supplementary information on expected content.
-//
-// Arguments:
-//   message (string) : general error message
-//   line_count (int) : line count for error message
-//   line (string) : line text for error message
-
 
 #endif
