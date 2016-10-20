@@ -11,8 +11,7 @@ modules_h = arithmetic vector_tuple memoizer profiling
 modules_ho = parsing
 
 # programs
-programs = test_arithmetic test_vector_tuple 
-programs += test_memoizer
+programs = arithmetic_test vector_tuple_test memoizer_test
 CC := $(CXX)
 
 ################################
