@@ -5,10 +5,10 @@
 libname = mcutils
 
 # modules -- header-only
-modules_h = arithmetic vector_tuple memoizer profiling
+modules_h = arithmetic vector_tuple memoizer profiling eigen
 
 # modules -- header-plus-object 
-modules_ho = parsing eigen
+modules_ho = parsing
 
 # programs
 programs = arithmetic_test vector_tuple_test memoizer_test
