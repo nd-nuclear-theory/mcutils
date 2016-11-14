@@ -1,0 +1,126 @@
+/****************************************************************
+  eigen.h
+
+  Matrix utilities for use with Eigen template library.
+`
+  Requires: Eigen, cppformat
+
+  Mark A. Caprio
+  University of Notre Dame
+
+  11/13/16 (mac): Created, with code from shell project (h2mixer).
+
+****************************************************************/
+
+#ifndef MCUTILS_EIGEN_H_
+#define MCUTILS_EIGEN_H_
+
+#include <iostream>
+#include <sstream>
+#include <string>
+
+#include "eigen3/Eigen/Dense"
+
+namespace mcutils
+{
+  ////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////
+
+  ////////////////////////////////////////////////////////////////
+  // matrix arithmetic
+  ////////////////////////////////////////////////////////////////
+
+  template<typename tMatrixType>
+    void ChopMatrix(tMatrixType& matrix, double tolerance=1e-10)
+    // Round near-zero entries in matrix to zero.
+    //
+    // Default tolerance value is same as Mathematica Chop function's.
+    //
+    // Template arguments:
+    //   tMatrixType: Eigen matrix type
+    //
+    // Arguments:
+    //   matrix (tMatrixType): matrix to chop
+    //   tolerance (double, optional): truncation tolerance
+    {
+      for (int i=0; i<matrix.rows(); ++i)
+        for (int j=0; j<matrix.cols(); ++j)
+          // Caution: Important to use std::abs() rather than integer abs().
+          if (std::abs(matrix(i,j))<tolerance)
+            matrix(i,j) = 0.;
+    }
+
+  template<typename tMatrixType>
+    void CompleteLowerTriangle(tMatrixType& matrix)
+    // Populate lower triangle of matrix as mirror of upper triangle.
+    //
+    // Template arguments:
+    //   tMatrixType: Eigen matrix type
+    //
+    // Arguments:
+    //   matrix (tMatrixType): matrix to complete
+    {
+      for (int i=0; i<matrix.rows(); ++i)
+        for (int j=0; j<matrix.cols(); ++j)
+          if (i>j)
+            matrix(i,j) = matrix(j,i);
+    }
+
+  ////////////////////////////////////////////////////////////////
+  // matrix formatting
+  ////////////////////////////////////////////////////////////////
+
+
+  template<typename tMatrixType>
+    std::string FormatMatrix(const tMatrixType& matrix, const std::string& format_string)
+    // Format matrix with given Python-style format string.
+    //
+    // Example:
+    //
+    //   std::cout << FormatMatrix(matrix,"+.8e") <<std::endl;
+    //
+    // Template arguments:
+    //   tMatrixType: Eigen matrix type
+    //
+    // Arguments:
+    //   matrix (tMatrixType): matrix to chop
+    //   format_string (std:string): Python-style format string
+    {
+      std::ostringstream os;
+
+      // formatting configuration (loosely matching Eigen::IOFormat)
+      const std::string entry_separator(" ");
+      const std::string row_separator("\n");
+      const std::string row_prefix("");
+      const std::string row_suffix("");
+      const std::string matrix_prefix("");
+      const std::string matrix_suffix("");
+
+      const std::string full_format_string = "{:"+format_string+"}";
+
+      os << matrix_prefix;
+      // for each row
+      for (int i=0; i<matrix.rows(); ++i)
+        {
+          os << row_prefix;
+          // for each column
+          for (int j=0; j<matrix.cols(); ++j)
+            {
+              os << fmt::format(full_format_string,matrix(i,j));
+              if (j+1<matrix.cols())
+                os << entry_separator;
+            }
+          os << row_suffix;
+          if (i+1<matrix.rows())
+            os << row_separator;
+        }
+      os << matrix_suffix;
+
+      return os.str();
+    }
+
+  ////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////
+} // namespace
+
+#endif

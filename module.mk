@@ -5,7 +5,7 @@ $(eval $(begin-module))
 ################################################################
 
 module_units_h := arithmetic vector_tuple memoizer profiling
-module_units_cpp-h := parsing
+module_units_cpp-h := parsing eigen
 # module_units_f := 
 module_programs_cpp := arithmetic_test vector_tuple_test memoizer_test
 # module_programs_f :=

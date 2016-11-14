@@ -8,7 +8,7 @@ libname = mcutils
 modules_h = arithmetic vector_tuple memoizer profiling
 
 # modules -- header-plus-object 
-modules_ho = parsing
+modules_ho = parsing eigen
 
 # programs
 programs = arithmetic_test vector_tuple_test memoizer_test
