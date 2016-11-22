@@ -20,6 +20,7 @@
 #include <string>
 
 #include "eigen3/Eigen/Dense"
+#include "cppformat/format.h"
 
 namespace mcutils
 {
