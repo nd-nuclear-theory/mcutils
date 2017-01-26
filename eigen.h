@@ -9,6 +9,7 @@
   University of Notre Dame
 
   11/13/16 (mac): Created, with code from shell project (h2mixer).
+  1/26/17 (aem): Added IsZero matrix comparison function.
 
 ****************************************************************/
 
@@ -50,6 +51,29 @@ namespace mcutils
           if (std::abs(matrix(i,j))<tolerance)
             matrix(i,j) = 0.;
     }
+
+  template<typename tMatrixType>
+    bool IsZero(tMatrixType& matrix,double tolerance=1e-10)
+    // Check if absolute value of all matrix elements are less than tolerance
+    //
+    // Template arguments:
+    //   tMatrixType: Eigen matrix type
+    //
+    // Arguments:
+    //   matrix (tMatrixType): matrix to check if zero matrix
+    //   tolerance (double, optional): truncation tolerance
+    {
+      int rows=matrix.rows();
+      int cols=matrix.cols();
+      for(int j=0; j<cols; ++j)
+        for(int i=0; i<rows; ++i)
+          {
+            if(fabs(matrix(i,j))>zero_threshold)
+                return false;
+          }
+      return true;
+    }
+
 
   template<typename tMatrixType>
     void CompleteLowerTriangle(tMatrixType& matrix)
