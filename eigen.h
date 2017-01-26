@@ -68,7 +68,7 @@ namespace mcutils
       for(int j=0; j<cols; ++j)
         for(int i=0; i<rows; ++i)
           {
-            if(fabs(matrix(i,j))>zero_threshold)
+            if(fabs(matrix(i,j))>tolerance)
                 return false;
           }
       return true;
