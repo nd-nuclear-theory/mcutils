@@ -9,7 +9,8 @@
   University of Notre Dame
 
   11/13/16 (mac): Created, with code from shell project (h2mixer).
-  1/26/17 (aem): Added IsZero matrix comparison function.
+  1/26/17 (aem): Add IsZero matrix comparison function.
+  2/17/17 (mac): Add row prefix option to FormatMatrix.
 
 ****************************************************************/
 
@@ -97,7 +98,7 @@ namespace mcutils
 
 
   template<typename tMatrixType>
-    std::string FormatMatrix(const tMatrixType& matrix, const std::string& format_string)
+    std::string FormatMatrix(const tMatrixType& matrix, const std::string& format_string, const std::string& prefix_string="")
     // Format matrix with given Python-style format string.
     //
     // Example:
@@ -116,7 +117,7 @@ namespace mcutils
       // formatting configuration (loosely matching Eigen::IOFormat)
       const std::string entry_separator(" ");
       const std::string row_separator("\n");
-      const std::string row_prefix("");
+      const std::string row_prefix(prefix_string);
       const std::string row_suffix("");
       const std::string matrix_prefix("");
       const std::string matrix_suffix("");
