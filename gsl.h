@@ -15,6 +15,8 @@
 #ifndef GSL_H_
 #define GSL_H_
 
+#include "gsl/gsl_sf.h"
+
 namespace mcutils {
 
   // GSL factorial wrappers

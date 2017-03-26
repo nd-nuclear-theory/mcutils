@@ -12,6 +12,10 @@ modules_ho = parsing
 
 # programs
 programs = arithmetic_test eigen_test vector_tuple_test memoizer_test
+
+# requires gsl...
+programs += gsl_test
+
 CC := $(CXX)
 
 ################################
@@ -30,6 +34,6 @@ CC := $(CXX)
 
 # external libraries
 LDFLAGS += -L../am
-LDLIBS += -lam
+LDLIBS += -lam -lgsl
 
 CXXFLAGS += -std=c++11
