@@ -5,7 +5,7 @@
 libname = mcutils
 
 # modules -- header-only
-modules_h = arithmetic vector_tuple memoizer profiling eigen
+modules_h = arithmetic vector_tuple memoizer profiling eigen gsl
 
 # modules -- header-plus-object 
 modules_ho = parsing
