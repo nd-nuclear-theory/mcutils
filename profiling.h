@@ -4,7 +4,17 @@
 
   Simple timing with clock().
 
-  Created by Mark A. Caprio, 2/23/11.
+  Mark A. Caprio
+  University of Notre Dame
+
+  - 2/23/11 (mac): Created.
+  - 6/9/17 (mac):
+    + Move into mcutils namespace.
+    + Start clock on timer construction.
+    + Allow accumulation of intervals.
+    + Provide accessor for raw clocks.
+    + Upgrade to use C++ chrono
+
                                   
 ****************************************************************/
 
@@ -17,36 +27,66 @@
 // simple clock timing
 ////////////////////////////////////////////////////////////////
 
-class Timer{
+namespace mcutils
+{
+  ////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////
 
-public:
-	////////////////////////////////
-	// constructors
-	////////////////////////////////
+  class Timer{
 
-	// default constructor: initializes timer values to zero
-	Timer() : start_time_(0), end_time_(0) {}; 
+    public:
+    ////////////////////////////////
+    // constructors
+    ////////////////////////////////
 
-	////////////////////////////////
-	// stopwatch
-	////////////////////////////////
+    // default constructor
+    Timer() : start_time_(0), elapsed_time_(0)
+      // Initialize elapsed time to zero and "start clock".
+      {
+        Start();
+      }; 
 
-	void Start() {start_time_ = clock();};
-	void Stop() {end_time_ = clock();};
+    ////////////////////////////////
+    // stopwatch
+    ////////////////////////////////
 
-	double ElapsedTime() const {
-		return (static_cast<double>(end_time_ - start_time_)) / CLOCKS_PER_SEC;
-	};
+    void Start()
+    // Set starting time from which next increment will be measured.
+    {
+      start_time_ = std::clock();
+    };
 
-	////////////////////////////////
-	// 
-	////////////////////////////////
+    void Stop()
+    // Increment aggregate elapsed time by time since last start call.
+    {
+      elapsed_time_ += std::clock() - start_time_;
+    };
 
-private:
+    clock_t ElapsedClocks() const {
+      return elapsed_time_;
+    };
+  
+    double ElapsedTime() const {
+      return (static_cast<double>(ElapsedClocks())) / CLOCKS_PER_SEC;
+    };
 
-	clock_t start_time_;
-	clock_t end_time_;
+    ////////////////////////////////
+    // 
+    ////////////////////////////////
 
-};
+    private:
+
+    clock_t start_time_;
+    clock_t elapsed_time_;
+
+  };
+
+}  // namespace
+
+// legacy support for global definitions
+
+#ifdef MCUTILS_ALLOW_LEGACY_GLOBAL
+using mcutils::Timer;
+#endif
 
 #endif
