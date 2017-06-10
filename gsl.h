@@ -8,12 +8,12 @@
   Mark A. Caprio
   University of Notre Dame
 
-  3/26/17 (mac): Created, based on code from spncci utilities (aem).
+  - 3/26/17 (mac): Created, based on code from spncci utilities (aem).
 
 ****************************************************************/
 
-#ifndef GSL_H_
-#define GSL_H_
+#ifndef MCUTILS_GSL_H_
+#define MCUTILS_GSL_H_
 
 #include "gsl/gsl_sf.h"
 

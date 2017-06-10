@@ -19,8 +19,8 @@
 
 ****************************************************************/
 
-#ifndef PARSING_H_
-#define PARSING_H_
+#ifndef MCUTILS_PARSING_H_
+#define MCUTILS_PARSING_H_
 
 #include <iostream>
 #include <sstream>
@@ -47,8 +47,8 @@ namespace mcutils
   // more portable.
   //
   // Example:
-  //   StreamCheck(bool(in_stream),in_stream_name,"Failed to open file");
-  //   StreamCheck(bool(in_stream),in_stream_name,"Failure while writing header");
+  //   mcutils::StreamCheck(bool(in_stream),in_stream_name,"Failed to open file");
+  //   mcutils::StreamCheck(bool(in_stream),in_stream_name,"Failure while writing header");
 
   void ParsingError(int line_count, const std::string& line, const std::string& message);
   // Generate error message indicating line of input.
@@ -89,7 +89,7 @@ namespace mcutils
   //      // parse line
   //      int a, b, ...;
   //      line_stream >> a >> b >> ...;
-  //      ParsingCheck(line_stream, line_count, line);
+  //      mcutils::ParsingCheck(line_stream, line_count, line);
   //  
   //      // do stuff with input
   //      ...

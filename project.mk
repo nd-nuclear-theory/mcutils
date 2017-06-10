@@ -39,7 +39,7 @@ CPPFLAGS += -DHAVE_INLINE
 
 # mcutils submodule
 #   allow legacy global access to variables now wrapped in mcutils namespace
-CPPFLAGS += -DMCUTILS_ALLOW_LEGACY_GLOBAL
+## CPPFLAGS += -DMCUTILS_ALLOW_LEGACY_GLOBAL
 
 ################################
 # "neighboring" libraries

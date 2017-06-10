@@ -13,9 +13,9 @@ using namespace std;
 int main(int argc, char **argv)
 {
 
-	cout << sqr(2) << " " << sqr(2.1) << endl;
-	cout << "****" << endl;
+  cout << mcutils::sqr(2) << " " << mcutils::sqr(2.1) << endl;
+  cout << "****" << endl;
 
-	// termination
-	return 0;
+  // termination
+  return 0;
 }

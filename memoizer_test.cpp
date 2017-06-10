@@ -16,7 +16,7 @@ using namespace std;
 HalfInt f(int i)
 {
 
-	static Memoizer<int,HalfInt> m;
+	static mcutils::Memoizer<int,HalfInt> m;
 
 	HalfInt v;
 	if (m.Seek(i))
@@ -34,7 +34,7 @@ HalfInt f(int i)
 int g(int i)
 {
 
-	static Memoizer<int,int> m;
+	static mcutils::Memoizer<int,int> m;
 
 	return MEMOIZE(m, i, (cout << "(" << i << ")", i*i));
 	
@@ -43,7 +43,7 @@ int g(int i)
 int factorial_disabled(int i)
 {
 
-	static Memoizer<int,int> m;
+	static mcutils::Memoizer<int,int> m;
 	m.EnableCaching(false);
 
 	if (i==0) 
@@ -56,7 +56,7 @@ int factorial_disabled(int i)
 int factorial_cached(int i)
 {
 
-	static Memoizer<int,int> m;
+	static mcutils::Memoizer<int,int> m;
 
 	if (i==0) 
 		return 1;
@@ -68,7 +68,7 @@ int factorial_cached(int i)
 int factorial_dump(int i)
 {
 
-	static Memoizer<int,int> m;
+	static mcutils::Memoizer<int,int> m;
 	
 	int v;
 
@@ -97,7 +97,7 @@ int factorial_plain_timing(int i)
 int factorial_disabled_timing(int i)
 {
 
-	static Memoizer<int,int> m(false);
+	static mcutils::Memoizer<int,int> m(false);
 
 	if (i==0) 
 		return 1;
@@ -109,7 +109,7 @@ int factorial_disabled_timing(int i)
 int factorial_cached_timing(int i)
 {
 
-	static Memoizer<int,int> m;
+	static mcutils::Memoizer<int,int> m;
 
 	if (i==0) 
 		return 1;
@@ -121,7 +121,7 @@ int factorial_cached_timing(int i)
 int main(int argc, char **argv)
 {
 
-	static Memoizer<vector<int>,int> m;
+	static mcutils::Memoizer<vector<int>,int> m;
 
 	// function defined using if structure
 
@@ -155,7 +155,7 @@ int main(int argc, char **argv)
 	factorial_dump(10);
 	cout << "****" << endl;
 
-	Timer t;
+	mcutils::Timer t;
 	int x;
 	int n_max = 10000;
 
