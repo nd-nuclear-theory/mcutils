@@ -39,9 +39,8 @@ namespace mcutils
     //
     // Ex:
     //   mcutils::WriteBinary<float>(out_stream,value);
-
     {
-      os.write(reinterpret_cast<const char*> (&data),sizeof(data));
+      os.write(reinterpret_cast<const char*>(&data),sizeof(data));
     }
 
   template <typename tDataType>
@@ -55,7 +54,7 @@ namespace mcutils
     // Ex:
     //   mcutils::ReadBinary<float>(in_stream,value);
     {
-      is.read(reinterpret_cast<char*> (&data),sizeof(data));
+      is.read(reinterpret_cast<char*>(&data),sizeof(data));
     }
 
   template <typename tDataType>
