@@ -9,6 +9,7 @@
   - 2/23/11 (mac): Rename from mc_arithmetic to arithmetic.
   - 3/26/17 (mac): Import KroneckerDelta from spncci's utilities (aem).
   - 6/9/17 (mac): Move into namespace mcutils.
+  - 11/5/17 (mac): Add UnitStep based on acm (wcl).
 
 ****************************************************************/
 
@@ -41,6 +42,16 @@ namespace mcutils
     // That is, returns 1 if x==y, 0 otherwise.
     {
       return int(x==y);  // Is int(true) guaranteed to be 1?
+    }
+
+  template <typename T>
+    inline
+    int UnitStep(const T& x)
+    // Calculate unit step function.
+    //
+    // That is, returns 1 if x>=0, 0 otherwise.
+    {
+      return int(x>=0);  // Is int(true) guaranteed to be 1?
     }
 
 

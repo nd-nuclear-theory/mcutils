@@ -8,13 +8,16 @@
 
 #include <iostream>
 
-using namespace std;
-
 int main(int argc, char **argv)
 {
 
-  cout << mcutils::sqr(2) << " " << mcutils::sqr(2.1) << endl;
-  cout << "****" << endl;
+  std::cout << "sqr" << std::endl;
+  std::cout << mcutils::sqr(2) << " " << mcutils::sqr(2.1) << std::endl;
+  std::cout << mcutils::sqr<int>(2) << " " << mcutils::sqr<double>(2.1) << std::endl;  // or with explicit typenames
+
+  std::cout << "KroneckerDelta & UnitStep" << std::endl;
+  for (int i=-2; i<=2; ++i)
+    std::cout << i << " " << mcutils::KroneckerDelta(i,0) << " " << mcutils::UnitStep(i) << std::endl;
 
   // termination
   return 0;
