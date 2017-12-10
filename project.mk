@@ -41,6 +41,15 @@ CPPFLAGS += -DHAVE_INLINE
 #   allow legacy global access to variables now wrapped in mcutils namespace
 ## CPPFLAGS += -DMCUTILS_ALLOW_LEGACY_GLOBAL
 
+################################################################
+# makefile configuration flags
+################################################################
+
+#   MCUTILS_ENABLE_UNIT_TEST: define to enable compilation of unit test
+#   codes
+
+MCUTILS_ENABLE_UNIT_TEST := yes
+
 ################################
 # "neighboring" libraries
 ################################
