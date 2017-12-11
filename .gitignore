@@ -2,8 +2,6 @@
 *.[oa]
 *~
 *.tgz
-*.stackdump
-*#
 
 # unit test executables
 *_test
@@ -11,6 +9,10 @@
 # all executables on Cygwin
 *.exe
 
-# noise files
-*.dat
-*.pdf
+# Doxygen-generated docs
+doc/html/
+doc/latex/
+
+# project configuration symlinks
+makefile
+config.mk
