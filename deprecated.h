@@ -1,7 +1,7 @@
 /****************************************************************
   deprecated.h
 
-  Defines arithmetic shorthands.
+  Define deprecation macro.
 
   Patrick J. Fasano
   University of Notre Dame
