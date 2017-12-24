@@ -13,6 +13,8 @@
 #define MCUTILS_DEPRECATED_H_
 
 // borrowed from http://en.cppreference.com/w/cpp/experimental/feature_test
+// licensed under CC-BY-SA
+// see http://en.cppreference.com/w/Cppreference:FAQ
 #ifdef __has_cpp_attribute                      // Check if __has_cpp_attribute is present
 #  if __has_cpp_attribute(deprecated)           // Check for an attribute
 #    define DEPRECATED(msg) [[deprecated(msg)]]
