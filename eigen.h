@@ -23,7 +23,7 @@
 #include <string>
 
 #include "eigen3/Eigen/Dense"
-#include "cppformat/format.h"
+#include "fmt/format.h"
 
 namespace mcutils
 {
