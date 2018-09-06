@@ -16,6 +16,9 @@
   6/9/17 (mac):
     - Remove deprecated function OpenCheck.
     - Move into namespace mcutils.
+  08/11/18 (pjf):
+    - Add FileExistCheck.
+    - Add GetLine.
 
 ****************************************************************/
 
@@ -102,6 +105,49 @@ namespace mcutils
   //   filename (std::string): filename to check existence
   //   exit_on_nonexist (bool): exit with error message if file does not exist
   //   warn_on_overwrite (bool): emit warning message if file will be overwritten
+
+  template<typename CharT, typename Traits, typename Allocator>
+  inline std::basic_istream<CharT,Traits>& GetLine(
+      std::basic_istream<CharT,Traits>& stream,
+      std::basic_string<CharT,Traits,Allocator>& line,
+      int& line_count
+    )
+  // Get next non-blank, non-comment line.
+  //
+  // Note: This is an almost drop-in replacement for std::getline(), with
+  // additional line_count argument.
+  //
+  // Arguments:
+  //   stream (std::ifstream, input): stream to read line from
+  //   line (std::string, output): buffer to store into
+  //   line_count (int): line number counter
+  {
+    const std::string whitespace = " \t\r\n\f";
+    bool found_line = false;
+    while (!found_line && stream.good())
+    {
+      std::getline(stream, line);
+      ++line_count;
+      auto start_pos = line.find_first_not_of(whitespace);
+      if (!(start_pos == std::string::npos || line[start_pos] == '#'))
+      {
+        found_line = true;
+      }
+    }
+
+    return stream;
+  }
+
+#if __cplusplus >= 201103L
+  /// Read a line from an rvalue stream into a string.
+  template<typename CharT, typename Traits, typename Allocator>
+  inline std::basic_istream<CharT, Traits>& GetLine(
+      std::basic_istream<CharT, Traits>&& stream,
+      std::basic_string<CharT, Traits, Allocator>& line,
+      int& line_count
+    )
+  { return GetLine(stream, line, line_count); }
+#endif
 
 }  // namespace
 
