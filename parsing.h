@@ -90,10 +90,18 @@ namespace mcutils
   //      int a, b, ...;
   //      line_stream >> a >> b >> ...;
   //      mcutils::ParsingCheck(line_stream, line_count, line);
-  //  
+  //
   //      // do stuff with input
   //      ...
   //    }
+
+  bool FileExistCheck(const std::string& filename, bool exit_on_nonexist, bool warn_on_overwrite);
+  // Check if file exists, and optionally exit on nonexistence or warn on existence
+  //
+  // Arguments:
+  //   filename (std::string): filename to check existence
+  //   exit_on_nonexist (bool): exit with error message if file does not exist
+  //   warn_on_overwrite (bool): emit warning message if file will be overwritten
 
 }  // namespace
 
