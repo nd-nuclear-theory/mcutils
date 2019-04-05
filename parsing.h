@@ -19,6 +19,7 @@
   08/11/18 (pjf):
     - Add FileExistCheck.
     - Add GetLine.
+  04/03/19 (pjf): Add TokenizeString.
 
 ****************************************************************/
 
@@ -28,6 +29,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <vector>
 
 namespace mcutils
 {
@@ -149,7 +151,17 @@ namespace mcutils
   { return GetLine(stream, line, line_count); }
 #endif
 
-}  // namespace
+  std::vector<std::string> TokenizeString(const std::string& str);
+  // Break a string of space-separated keywords into separate strings.
+  //
+  // Ignores any tokens following the comment character '#'.
+  //
+  // Arguments:
+  //   str (std::string): input string
+  // Returns:
+  //   (std::vector<std::string>): vector of token strings
+
+}  // namespace mcutils
 
 
 // legacy support for global definitions

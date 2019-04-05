@@ -10,6 +10,7 @@
 
 #include <sys/stat.h>
 #include <cstdlib>
+#include <utility>
 
 namespace mcutils
 {
@@ -67,4 +68,18 @@ namespace mcutils
     return file_exists;
   }
 
-}  // namespace
+  std::vector<std::string> TokenizeString(const std::string& str)
+  {
+    std::vector<std::string> tokens;
+    std::istringstream str_stream(str);
+    while (str_stream.good())
+    {
+      std::string temp_str;
+      str_stream >> temp_str;
+      if ((temp_str.size()==0) || (temp_str.at(0)=='#')) break;
+      tokens.push_back(std::move(temp_str));
+    }
+    return std::move(tokens);
+  }
+
+}  // namespace mcutils
