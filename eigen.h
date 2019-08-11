@@ -8,10 +8,12 @@
   Mark A. Caprio
   University of Notre Dame
 
-  11/13/16 (mac): Created, with code from shell project (h2mixer).
-  1/26/17 (aem): Add IsZero matrix comparison function.
-  2/17/17 (mac): Add row prefix option to FormatMatrix.
-  2/27/17 (mac): Add NonzerosInMatrix nonzero counting function.
+  + 11/13/16 (mac): Created, with code from shell project (h2mixer).
+  + 01/26/17 (aem): Add IsZero matrix comparison function.
+  + 02/17/17 (mac): Add row prefix option to FormatMatrix.
+  + 02/27/17 (mac): Add NonzerosInMatrix nonzero counting function.
+  + 07/05/19 (pjf): Return const reference from ChopMatrix to be able to
+    use in expressions like `std::cout << ChopMatrix(matrix)`.
 
 ****************************************************************/
 
@@ -35,7 +37,7 @@ namespace mcutils
   ////////////////////////////////////////////////////////////////
 
   template<typename tMatrixType>
-    void ChopMatrix(tMatrixType& matrix, double tolerance=1e-10)
+    const tMatrixType& ChopMatrix(tMatrixType& matrix, double tolerance=1e-10)
     // Round near-zero entries in matrix to zero.
     //
     // Default tolerance value is same as Mathematica Chop function's.
@@ -46,12 +48,17 @@ namespace mcutils
     // Arguments:
     //   matrix (tMatrixType): matrix to chop
     //   tolerance (double, optional): truncation tolerance
+    //
+    // Returns:
+    //   (const ref to tMatrixType): reference to chopped matrix
     {
       for (int i=0; i<matrix.rows(); ++i)
         for (int j=0; j<matrix.cols(); ++j)
           // Caution: Important to use std::abs() rather than integer abs().
           if (std::abs(matrix(i,j))<tolerance)
             matrix(i,j) = 0.;
+
+      return matrix;
     }
 
   template<typename tMatrixType>
