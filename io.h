@@ -25,7 +25,7 @@ namespace mcutils
 
 
   template <typename tDataType>
-    void WriteBinary(std::ostream& os, tDataType data)
+    void WriteBinary(std::ostream& os, const tDataType &data)
     // Write binary data item to stream.
     //
     // Note that, if the template parameter is omitted, the data type
