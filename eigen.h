@@ -14,6 +14,8 @@
   + 02/27/17 (mac): Add NonzerosInMatrix nonzero counting function.
   + 07/05/19 (pjf): Return const reference from ChopMatrix to be able to
     use in expressions like `std::cout << ChopMatrix(matrix)`.
+  + 04/09/21 (pjf): Add overload of ChopMatrix which takes const reference
+    and returns a chopped copy.
 
 ****************************************************************/
 
@@ -59,6 +61,27 @@ namespace mcutils
             matrix(i,j) = 0.;
 
       return matrix;
+    }
+
+  template<typename tMatrixType>
+    tMatrixType ChopMatrix(const tMatrixType& matrix, double tolerance=1e-10)
+    // Round near-zero entries in matrix to zero.
+    //
+    // Default tolerance value is same as Mathematica Chop function's.
+    //
+    // Template arguments:
+    //   tMatrixType: Eigen matrix type
+    //
+    // Arguments:
+    //   matrix (tMatrixType): matrix to chop
+    //   tolerance (double, optional): truncation tolerance
+    //
+    // Returns:
+    //   (const ref to tMatrixType): reference to chopped matrix
+    {
+      tMatrixType temp = matrix;
+      ChopMatrix(temp, tolerance);
+      return temp;
     }
 
   template<typename tMatrixType>
