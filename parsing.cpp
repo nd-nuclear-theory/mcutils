@@ -8,7 +8,9 @@
 
 #include "parsing.h"
 
+#include <sys/stat.h>
 #include <cstdlib>
+#include <utility>
 
 namespace mcutils
 {
@@ -40,7 +42,7 @@ namespace mcutils
   void ParsingError(int line_count, const std::string& line, const std::string& message)
   {
     std::cerr << std::endl;
-    std::cerr << message << std::endl;
+    std::cerr << "ERROR: " << message << std::endl;
     std::cerr << "Input line " << line_count << ": " << line  << std::endl;
     std::exit(EXIT_FAILURE);
   }
@@ -51,4 +53,33 @@ namespace mcutils
       ParsingError(line_count,line,"Failed parsing line (missing or incorrect arguments)");
   }
 
-}  // namespace
+  bool FileExistCheck(const std::string& filename, bool exit_on_nonexist, bool warn_on_overwrite)
+  {
+    struct stat st;
+    bool file_exists = (stat(filename.c_str(), &st) == 0);
+    if (!file_exists && exit_on_nonexist) {
+        std::cerr << "ERROR: file " << filename << " does not exist!" << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
+    if (file_exists && warn_on_overwrite) {
+      std::cerr << "WARN: overwriting file " << filename << std::endl;
+    }
+
+    return file_exists;
+  }
+
+  std::vector<std::string> TokenizeString(const std::string& str)
+  {
+    std::vector<std::string> tokens;
+    std::istringstream str_stream(str);
+    while (str_stream.good())
+    {
+      std::string temp_str;
+      str_stream >> temp_str;
+      if ((temp_str.size()==0) || (temp_str.at(0)=='#')) break;
+      tokens.push_back(std::move(temp_str));
+    }
+    return std::move(tokens);
+  }
+
+}  // namespace mcutils

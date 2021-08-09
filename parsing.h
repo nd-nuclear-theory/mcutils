@@ -16,6 +16,10 @@
   6/9/17 (mac):
     - Remove deprecated function OpenCheck.
     - Move into namespace mcutils.
+  08/11/18 (pjf):
+    - Add FileExistCheck.
+    - Add GetLine.
+  04/03/19 (pjf): Add TokenizeString.
 
 ****************************************************************/
 
@@ -25,6 +29,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <vector>
 
 namespace mcutils
 {
@@ -90,12 +95,73 @@ namespace mcutils
   //      int a, b, ...;
   //      line_stream >> a >> b >> ...;
   //      mcutils::ParsingCheck(line_stream, line_count, line);
-  //  
+  //
   //      // do stuff with input
   //      ...
   //    }
 
-}  // namespace
+  bool FileExistCheck(const std::string& filename, bool exit_on_nonexist, bool warn_on_overwrite);
+  // Check if file exists, and optionally exit on nonexistence or warn on existence
+  //
+  // Arguments:
+  //   filename (std::string): filename to check existence
+  //   exit_on_nonexist (bool): exit with error message if file does not exist
+  //   warn_on_overwrite (bool): emit warning message if file will be overwritten
+
+  template<typename CharT, typename Traits, typename Allocator>
+  inline std::basic_istream<CharT,Traits>& GetLine(
+      std::basic_istream<CharT,Traits>& stream,
+      std::basic_string<CharT,Traits,Allocator>& line,
+      int& line_count
+    )
+  // Get next non-blank, non-comment line.
+  //
+  // Note: This is an almost drop-in replacement for std::getline(), with
+  // additional line_count argument.
+  //
+  // Arguments:
+  //   stream (std::ifstream, input): stream to read line from
+  //   line (std::string, output): buffer to store into
+  //   line_count (int): line number counter
+  {
+    const std::string whitespace = " \t\r\n\f";
+    bool found_line = false;
+    while (!found_line && stream.good())
+    {
+      std::getline(stream, line);
+      ++line_count;
+      auto start_pos = line.find_first_not_of(whitespace);
+      if (!(start_pos == std::string::npos || line[start_pos] == '#'))
+      {
+        found_line = true;
+      }
+    }
+
+    return stream;
+  }
+
+#if __cplusplus >= 201103L
+  /// Read a line from an rvalue stream into a string.
+  template<typename CharT, typename Traits, typename Allocator>
+  inline std::basic_istream<CharT, Traits>& GetLine(
+      std::basic_istream<CharT, Traits>&& stream,
+      std::basic_string<CharT, Traits, Allocator>& line,
+      int& line_count
+    )
+  { return GetLine(stream, line, line_count); }
+#endif
+
+  std::vector<std::string> TokenizeString(const std::string& str);
+  // Break a string of space-separated keywords into separate strings.
+  //
+  // Ignores any tokens following the comment character '#'.
+  //
+  // Arguments:
+  //   str (std::string): input string
+  // Returns:
+  //   (std::vector<std::string>): vector of token strings
+
+}  // namespace mcutils
 
 
 // legacy support for global definitions

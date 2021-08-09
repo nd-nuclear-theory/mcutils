@@ -3,10 +3,12 @@
 
   Generic binary I/O helper functions.
 `
-  Mark A. Caprio
+  Mark A. Caprio, Patrick J. Fasano
   University of Notre Dame
 
-  6/9/17 (mac): Created.
+  + 06/09/17 (mac): Created.
+  + 11/07/19 (pjf): Add multi-element overloads for WriteBinary
+    and ReadBinary.
 
 ****************************************************************/
 
@@ -23,7 +25,7 @@ namespace mcutils
 
 
   template <typename tDataType>
-    void WriteBinary(std::ostream& os, tDataType data)
+    void WriteBinary(std::ostream& os, const tDataType &data)
     // Write binary data item to stream.
     //
     // Note that, if the template parameter is omitted, the data type
@@ -55,6 +57,36 @@ namespace mcutils
     //   mcutils::ReadBinary<float>(in_stream,value);
     {
       is.read(reinterpret_cast<char*>(&data),sizeof(data));
+    }
+
+  template <typename tDataType>
+    void WriteBinary(std::ostream& os, const tDataType* data_ptr, std::size_t count=1)
+    // Write binary data item to stream.
+    //
+    // Arguments:
+    //   os (input): binary stream for output
+    //   data (input): pointer to data to output
+    //   count (input, optional): number of (contiguous) values to write
+    //
+    // Ex:
+    //   mcutils::WriteBinary<float>(out_stream, value_arr, dimension);
+    {
+      os.write(reinterpret_cast<const char*>(data_ptr), count*sizeof(*data_ptr));
+    }
+
+  template <typename tDataType>
+    void ReadBinary(std::istream& is, tDataType* data_ptr, std::size_t count=1)
+    // Read binary data item from stream.
+    //
+    // Arguments:
+    //   is (input): binary stream for input
+    //   data_ptr (output): pointer to data read from stream
+    //   count (input, optional): number of (contiguous) values to read
+    //
+    // Ex:
+    //   mcutils::ReadBinary<float>(in_stream, value_arr, dimension);
+    {
+      is.read(reinterpret_cast<char*>(data_ptr), count*sizeof(*data_ptr));
     }
 
   template <typename tDataType>
