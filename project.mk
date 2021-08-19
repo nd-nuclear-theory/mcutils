@@ -17,7 +17,7 @@ project_name := mcutils
 # course, they are only template libraries, so nobody needs to link to
 # them).
 
-modules += .
+modules += . ../am ../fmt
 
 MAKEFILE_STANDALONE = true
 
@@ -54,7 +54,3 @@ CPPFLAGS += -DHAVE_INLINE
 # subdirectories, though.  These must be defined separately through
 
 CPPFLAGS += -I..
-
-# link to neighboring libraries
-LDFLAGS += -L../am
-LDLIBS += -lam
