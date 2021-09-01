@@ -26,8 +26,8 @@
 #include <sstream>
 #include <string>
 
-#include "eigen3/Eigen/Dense"
-#include "fmt/format.h"
+#include <Eigen/Dense>
+#include <fmt/format.h>
 
 namespace mcutils
 {

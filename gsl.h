@@ -1,8 +1,8 @@
 /****************************************************************
-  gsl.h                       
+  gsl.h
 
   Defines wrappers for gsl functions.
-         
+
   Language: C++
 
   Mark A. Caprio
@@ -15,7 +15,7 @@
 #ifndef MCUTILS_GSL_H_
 #define MCUTILS_GSL_H_
 
-#include "gsl/gsl_sf.h"
+#include <gsl/gsl_sf_gamma.h>
 
 namespace mcutils {
 

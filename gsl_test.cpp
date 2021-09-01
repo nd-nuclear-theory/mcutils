@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-#include "gsl.h"
+#include <gsl.h>
 
 int main(int argc, char **argv)
 {
