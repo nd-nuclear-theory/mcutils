@@ -12,6 +12,10 @@ endif()
 
 project(mcutils CXX)
 
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
+
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -24,8 +28,8 @@ set(mcutils_headers
     vector_tuple.h
     memoizer.h
     profiling.h
-    eigen.h
-    gsl.h
+    # eigen.h  # optional -- see below
+    # gsl.h  # optional -- see below
     io.h
     parsing.h
 )
@@ -39,19 +43,41 @@ add_library(mcutils::mcutils ALIAS mcutils)
 # find external projects/dependencies
 # ##############################################################################
 
-if(NOT TARGET fmt::fmt)
-  find_package(fmt REQUIRED)
-endif()
-
 if(NOT TARGET am::am)
   find_package(am REQUIRED)
+endif()
+
+if(NOT TARGET Eigen3::Eigen)
+  find_package(Eigen3 NO_MODULE)
+endif()
+
+if(NOT TARGET GSL::gsl)
+  find_package(GSL)
 endif()
 
 # ##############################################################################
 # link dependencies
 # ##############################################################################
 
-target_link_libraries(mcutils am::am fmt::fmt)
+target_link_libraries(mcutils PUBLIC am::am)
+
+# ##############################################################################
+# link optional dependencies
+# ##############################################################################
+
+if(TARGET Eigen3::Eigen)
+  # fmt is only required for Eigen3 support
+  if(NOT TARGET fmt::fmt)
+    find_package(fmt REQUIRED)
+  endif()
+  target_link_libraries(mcutils INTERFACE Eigen3::Eigen fmt::fmt)
+  list(APPEND mcutils_headers eigen.h)
+endif()
+
+if(TARGET GSL::gsl)
+  target_link_libraries(mcutils INTERFACE GSL::gsl)
+  list(APPEND mcutils_headers gsl.h)
+endif()
 
 # ##############################################################################
 # define include directory
