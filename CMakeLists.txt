@@ -57,9 +57,8 @@ set(mcutils_UNITS_H
     profiling
     # eigen  # optional -- see below
     # gsl  # optional -- see below
-    io
 )
-set(mcutils_UNITS_H_CPP parsing)
+set(mcutils_UNITS_H_CPP parsing io)
 
 if(TARGET Eigen3::Eigen)
   list(APPEND mcutils_UNITS_H eigen)

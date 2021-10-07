@@ -9,6 +9,7 @@
   + 06/09/17 (mac): Created.
   + 11/07/19 (pjf): Add multi-element overloads for WriteBinary
     and ReadBinary.
+  + 10/07/21 (pjf): Add IOMode and DeducedIOMode.
 
 ****************************************************************/
 
@@ -123,6 +124,13 @@ namespace mcutils
         }
 
     }
+
+  ////////////////////////////////////////////////////////////////
+  // I/O mode support
+  ////////////////////////////////////////////////////////////////
+  enum class IOMode {kText,kBinary};
+
+  IOMode DeducedIOMode(const std::string& filename);
 
 }  // namespace
 

@@ -5,8 +5,8 @@ $(eval $(begin-module))
 ################################################################
 
 # units
-module_units_h += arithmetic deprecated vector_tuple memoizer profiling eigen gsl io
-module_units_cpp-h += parsing
+module_units_h += arithmetic deprecated vector_tuple memoizer profiling eigen gsl
+module_units_cpp-h += parsing io
 
 # programs
 module_programs_cpp +=
