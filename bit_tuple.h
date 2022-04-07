@@ -290,9 +290,9 @@ namespace std
 template<typename tStorageType, std::size_t... args>
 struct hash<mcutils::bit_tuple<tStorageType, args...>>
 {
-  inline std::size_t operator()(const mcutils::bit_tuple<tStorageType, args...>& h) const noexcept
+  inline std::size_t operator()(const mcutils::bit_tuple<tStorageType, args...>& t) const noexcept
   {
-    return std::hash<tStorageType>()(static_cast<tStorageType>(h));
+    return std::hash<tStorageType>()(t.bitrep());
   }
 };
 }  // namespace std
@@ -304,6 +304,6 @@ namespace mcutils
   {
     return std::hash<bit_tuple<tStorageType, args...>>()(t);
   }
-}
+}  // namespace mcutils
 
 #endif  // MCUTILS_BIT_TUPLE_H_
