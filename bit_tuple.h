@@ -297,4 +297,13 @@ struct hash<mcutils::bit_tuple<tStorageType, args...>>
 };
 }  // namespace std
 
+namespace mcutils
+{
+  template<typename tStorageType, std::size_t... args>
+  std::size_t hash_value(const bit_tuple<tStorageType, args...>& t) noexcept
+  {
+    return std::hash<bit_tuple<tStorageType, args...>>()(t);
+  }
+}
+
 #endif  // MCUTILS_BIT_TUPLE_H_
