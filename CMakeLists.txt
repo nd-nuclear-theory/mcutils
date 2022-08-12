@@ -55,6 +55,7 @@ set(mcutils_UNITS_H
     vector_tuple
     memoizer
     profiling
+    fortran_io
     # eigen  # optional -- see below
     # gsl  # optional -- see below
 )
