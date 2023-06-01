@@ -10,6 +10,9 @@
   + 11/07/19 (pjf): Add multi-element overloads for WriteBinary
     and ReadBinary.
   + 10/07/21 (pjf): Add IOMode and DeducedIOMode.
+  + 06/01/23 (pjf):
+    - Remove default count from WriteBinary and ReadBinary.
+    - Use static_assert to prevent reading/writing pointer values.
 
 ****************************************************************/
 
@@ -43,6 +46,7 @@ namespace mcutils
     // Ex:
     //   mcutils::WriteBinary<float>(out_stream,value);
     {
+      static_assert(!std::is_pointer<tDataType>::value, "tDataType cannot be a pointer type");
       os.write(reinterpret_cast<const char*>(&data),sizeof(data));
     }
 
@@ -57,36 +61,39 @@ namespace mcutils
     // Ex:
     //   mcutils::ReadBinary<float>(in_stream,value);
     {
+      static_assert(!std::is_pointer<tDataType>::value, "tDataType cannot be a pointer type");
       is.read(reinterpret_cast<char*>(&data),sizeof(data));
     }
 
   template <typename tDataType>
-    void WriteBinary(std::ostream& os, const tDataType* data_ptr, std::size_t count=1)
-    // Write binary data item to stream.
+    void WriteBinary(std::ostream& os, const tDataType* data_ptr, std::size_t count)
+    // Write binary data items to stream.
     //
     // Arguments:
     //   os (input): binary stream for output
     //   data (input): pointer to data to output
-    //   count (input, optional): number of (contiguous) values to write
+    //   count (input): number of (contiguous) values to write
     //
     // Ex:
     //   mcutils::WriteBinary<float>(out_stream, value_arr, dimension);
     {
+      static_assert(!std::is_pointer<tDataType>::value, "tDataType cannot be a pointer type");
       os.write(reinterpret_cast<const char*>(data_ptr), count*sizeof(*data_ptr));
     }
 
   template <typename tDataType>
-    void ReadBinary(std::istream& is, tDataType* data_ptr, std::size_t count=1)
-    // Read binary data item from stream.
+    void ReadBinary(std::istream& is, tDataType* data_ptr, std::size_t count)
+    // Read binary data items from stream.
     //
     // Arguments:
     //   is (input): binary stream for input
     //   data_ptr (output): pointer to data read from stream
-    //   count (input, optional): number of (contiguous) values to read
+    //   count (input): number of (contiguous) values to read
     //
     // Ex:
     //   mcutils::ReadBinary<float>(in_stream, value_arr, dimension);
     {
+      static_assert(!std::is_pointer<tDataType>::value, "tDataType cannot be a pointer type");
       is.read(reinterpret_cast<char*>(data_ptr), count*sizeof(*data_ptr));
     }
 
