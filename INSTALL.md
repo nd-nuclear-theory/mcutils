@@ -1,4 +1,4 @@
-# am installation guide #
+# mcutils installation guide #
 
 Mark A. Caprio  
 Department of Physics, University of Notre Dame
