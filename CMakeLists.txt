@@ -54,6 +54,7 @@ set(mcutils_UNITS_H
     deprecated
     vector_tuple
     memoizer
+    meta
     profiling
     fortran_io
     # eigen  # optional -- see below
