@@ -76,10 +76,10 @@ namespace mcutils
     {
       std::string temp_str;
       str_stream >> temp_str;
-      if ((temp_str.size()==0) || (temp_str.at(0)=='#')) break;
+      if ((temp_str.size()==0) || (temp_str.at(0)=='#') || (temp_str.at(0)=='!')) break;
       tokens.push_back(std::move(temp_str));
     }
-    return std::move(tokens);
+    return tokens;
   }
 
 }  // namespace mcutils
