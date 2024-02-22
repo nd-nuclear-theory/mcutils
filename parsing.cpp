@@ -79,7 +79,7 @@ namespace mcutils
       if ((temp_str.size()==0) || (temp_str.at(0)=='#')) break;
       tokens.push_back(std::move(temp_str));
     }
-    return std::move(tokens);
+    return tokens;
   }
 
 }  // namespace mcutils
