@@ -131,7 +131,7 @@ namespace mcutils
       std::getline(stream, line);
       ++line_count;
       auto start_pos = line.find_first_not_of(whitespace);
-      if (!(start_pos == std::string::npos || line[start_pos] == '#'))
+      if (!(start_pos == std::string::npos || line[start_pos] == '#' || line[start_pos] == '!'))
       {
         found_line = true;
       }
