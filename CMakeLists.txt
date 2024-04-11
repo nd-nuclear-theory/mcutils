@@ -104,19 +104,20 @@ endif()
 # ##############################################################################
 # define installation rules
 # ##############################################################################
+include(GNUInstallDirs)
+
 install(
   TARGETS mcutils
-  DESTINATION lib
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}
   EXPORT mcutilsTargets
-  FILE_SET HEADERS DESTINATION include/mcutils
+  FILE_SET HEADERS DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mcutils
 )
-install(FILES ${mcutils_HEADERS} DESTINATION include/mcutils)
 
 install(
   EXPORT mcutilsTargets
   NAMESPACE mcutils::
   FILE mcutilsTargets.cmake
-  DESTINATION lib/cmake/mcutils
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/mcutils
 )
 
 include(CMakePackageConfigHelpers)
@@ -124,7 +125,7 @@ include(CMakePackageConfigHelpers)
 configure_package_config_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
   "${CMAKE_CURRENT_BINARY_DIR}/mcutilsConfig.cmake"
-  INSTALL_DESTINATION "lib/cmake/mcutils"
+  INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/mcutils"
   NO_SET_AND_CHECK_MACRO NO_CHECK_REQUIRED_COMPONENTS_MACRO
 )
 # generate the version file for the config file
@@ -137,7 +138,7 @@ write_basic_package_version_file(
 # install the configuration file
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/mcutilsConfig.cmake
               ${CMAKE_CURRENT_BINARY_DIR}/mcutilsConfigVersion.cmake
-        DESTINATION lib/cmake/mcutils
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/mcutils
 )
 
 export(
