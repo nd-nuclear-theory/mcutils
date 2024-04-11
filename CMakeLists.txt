@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.23)
 
 # Determine if mcutils is built as a subproject (using add_subdirectory) or if
 # it is the master project.
@@ -79,13 +79,13 @@ list(TRANSFORM mcutils_SOURCES APPEND .cpp)
 
 # define mcutils library and add source files
 add_library(mcutils ${mcutils_SOURCES})
+target_sources(
+  mcutils PUBLIC
+  FILE_SET HEADERS
+  TYPE HEADERS
+  FILES ${mcutils_HEADERS}
+)
 add_library(mcutils::mcutils ALIAS mcutils)
-foreach(header IN LISTS mcutils_HEADERS)
-  target_sources(
-    mcutils INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/${header}>
-                 $<INSTALL_INTERFACE:include/mcutils/${header}>
-  )
-endforeach()
 
 # ##############################################################################
 # link dependencies
@@ -102,21 +102,13 @@ if(TARGET GSL::gsl)
 endif()
 
 # ##############################################################################
-# define include directory
-# ##############################################################################
-cmake_path(GET mcutils_SOURCE_DIR PARENT_PATH mcutils_PARENT_DIR)
-target_include_directories(
-  mcutils INTERFACE $<BUILD_INTERFACE:${mcutils_PARENT_DIR}>
-                    $<INSTALL_INTERFACE:include>
-)
-
-# ##############################################################################
 # define installation rules
 # ##############################################################################
 install(
   TARGETS mcutils
   DESTINATION lib
   EXPORT mcutilsTargets
+  FILE_SET HEADERS DESTINATION include/mcutils
 )
 install(FILES ${mcutils_HEADERS} DESTINATION include/mcutils)
 
