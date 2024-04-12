@@ -45,11 +45,11 @@ if(NOT TARGET GSL::gsl)
 endif()
 
 # ##############################################################################
-# define mcutils headers and sources
+# define headers and sources
 # ##############################################################################
 
 # define units
-set(mcutils_UNITS_H
+set(${PROJECT_NAME}_UNITS_H
     arithmetic
     deprecated
     vector_tuple
@@ -60,45 +60,47 @@ set(mcutils_UNITS_H
     # eigen  # optional -- see below
     # gsl  # optional -- see below
 )
-set(mcutils_UNITS_H_CPP parsing io)
+set(${PROJECT_NAME}_UNITS_H_CPP parsing io)
 
 if(TARGET Eigen3::Eigen)
-  list(APPEND mcutils_UNITS_H eigen)
+  list(APPEND ${PROJECT_NAME}_UNITS_H eigen)
   message(STATUS "building mcutils with Eigen support")
 endif()
 if(TARGET GSL::gsl)
-  list(APPEND mcutils_UNITS_H gsl)
+  list(APPEND ${PROJECT_NAME}_UNITS_H gsl)
   message(STATUS "building mcutils with GSL support")
 endif()
 
 # construct lists of headers and sources
-set(mcutils_HEADERS ${mcutils_UNITS_H} ${mcutils_UNITS_H_CPP})
-list(TRANSFORM mcutils_HEADERS APPEND .h)
-set(mcutils_SOURCES ${mcutils_UNITS_H_CPP})
-list(TRANSFORM mcutils_SOURCES APPEND .cpp)
+set(${PROJECT_NAME}_HEADERS ${${PROJECT_NAME}_UNITS_H} ${${PROJECT_NAME}_UNITS_H_CPP})
+list(TRANSFORM ${PROJECT_NAME}_HEADERS APPEND .h)
+set(${PROJECT_NAME}_SOURCES ${${PROJECT_NAME}_UNITS_H_CPP})
+list(TRANSFORM ${PROJECT_NAME}_SOURCES APPEND .cpp)
+cmake_path(GET CMAKE_CURRENT_SOURCE_DIR PARENT_PATH parent_path)
 
 # define mcutils library and add source files
-add_library(mcutils ${mcutils_SOURCES})
+add_library(${PROJECT_NAME} ${${PROJECT_NAME}_SOURCES})
 target_sources(
-  mcutils PUBLIC
+  ${PROJECT_NAME} PUBLIC
   FILE_SET HEADERS
   TYPE HEADERS
-  FILES ${mcutils_HEADERS}
+  BASE_DIRS "${parent_dir}"
+  FILES ${${PROJECT_NAME}_HEADERS}
 )
-add_library(mcutils::mcutils ALIAS mcutils)
+add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
 # ##############################################################################
 # link dependencies
 # ##############################################################################
 
-target_link_libraries(mcutils PUBLIC am::am)
+target_link_libraries(${PROJECT_NAME} PUBLIC am::am)
 
 if(TARGET Eigen3::Eigen AND TARGET fmt::fmt)
-  target_link_libraries(mcutils INTERFACE Eigen3::Eigen fmt::fmt)
+  target_link_libraries(${PROJECT_NAME} INTERFACE Eigen3::Eigen fmt::fmt)
 endif()
 
 if(TARGET GSL::gsl)
-  target_link_libraries(mcutils INTERFACE GSL::gsl)
+  target_link_libraries(${PROJECT_NAME} INTERFACE GSL::gsl)
 endif()
 
 # ##############################################################################
@@ -107,51 +109,50 @@ endif()
 include(GNUInstallDirs)
 
 install(
-  TARGETS mcutils
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  EXPORT mcutilsTargets
-  FILE_SET HEADERS DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mcutils
+  TARGETS ${PROJECT_NAME}
+  EXPORT ${PROJECT_NAME}Targets
+  FILE_SET HEADERS
 )
 
 install(
-  EXPORT mcutilsTargets
-  NAMESPACE mcutils::
-  FILE mcutilsTargets.cmake
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/mcutils
+  EXPORT ${PROJECT_NAME}Targets
+  NAMESPACE ${PROJECT_NAME}::
+  FILE ${PROJECT_NAME}Targets.cmake
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
 
 include(CMakePackageConfigHelpers)
 # generate the config file that is includes the exports
 configure_package_config_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
-  "${CMAKE_CURRENT_BINARY_DIR}/mcutilsConfig.cmake"
-  INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/mcutils"
+  "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+  INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
   NO_SET_AND_CHECK_MACRO NO_CHECK_REQUIRED_COMPONENTS_MACRO
 )
 # generate the version file for the config file
 write_basic_package_version_file(
-  "${CMAKE_CURRENT_BINARY_DIR}/mcutilsConfigVersion.cmake"
-  VERSION "${mcutils_VERSION_MAJOR}.${mcutils_VERSION_MINOR}"
+  "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+  VERSION "${${PROJECT_NAME}_VERSION_MAJOR}.${${PROJECT_NAME}_VERSION_MINOR}"
   COMPATIBILITY AnyNewerVersion
 )
 
 # install the configuration file
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/mcutilsConfig.cmake
-              ${CMAKE_CURRENT_BINARY_DIR}/mcutilsConfigVersion.cmake
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/mcutils
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+              ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
 
 export(
-  EXPORT mcutilsTargets
-  NAMESPACE mcutils::
-  FILE "${CMAKE_CURRENT_BINARY_DIR}/mcutilsTargets.cmake"
+  EXPORT ${PROJECT_NAME}Targets
+  NAMESPACE ${PROJECT_NAME}::
+  FILE "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Targets.cmake"
 )
 
 # ##############################################################################
 # define tests
 # ##############################################################################
 
-set(mcutils_UNITS_TEST
+set(${PROJECT_NAME}_UNITS_TEST
     arithmetic_test
     eigen_test
     gsl_test
@@ -161,14 +162,14 @@ set(mcutils_UNITS_TEST
     vector_tuple_test
 )
 
-add_custom_target(mcutils_tests)
-foreach(test_name IN LISTS mcutils_UNITS_TEST)
+add_custom_target(${PROJECT_NAME}_tests)
+foreach(test_name IN LISTS ${PROJECT_NAME}_UNITS_TEST)
   add_executable(${test_name} EXCLUDE_FROM_ALL ${test_name}.cpp)
-  target_link_libraries(${test_name} mcutils::mcutils)
-  add_dependencies(mcutils_tests ${test_name})
+  target_link_libraries(${test_name} ${PROJECT_NAME}::${PROJECT_NAME})
+  add_dependencies(${PROJECT_NAME}_tests ${test_name})
 endforeach()
 
 if(MCUTILS_MASTER_PROJECT)
   add_custom_target(tests)
-  add_dependencies(tests mcutils_tests)
+  add_dependencies(tests ${PROJECT_NAME}_tests)
 endif()
