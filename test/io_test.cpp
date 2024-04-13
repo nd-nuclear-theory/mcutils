@@ -9,7 +9,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "io.h"
+#include "mcutils/io.h"
 
 int main(int argc, char **argv)
 {

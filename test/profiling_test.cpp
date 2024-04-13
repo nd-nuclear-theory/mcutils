@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-#include "profiling.h"
+#include "mcutils/profiling.h"
 
 void DoDelay()
 {
@@ -74,7 +74,7 @@ void CompareTimers()
 
 int main(int argc, char **argv)
 {
-  
+
   TestTimer();
   TestSteadyTimer();
   CompareTimers();

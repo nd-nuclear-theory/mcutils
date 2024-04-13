@@ -1,5 +1,5 @@
 /******************************************************************************
-  
+
   Created by M. A. Caprio
   University of Notre Dame
   November 27, 2010
@@ -9,7 +9,7 @@
 
 ******************************************************************************/
 
-#include "vector_tuple.h"
+#include "mcutils/vector_tuple.h"
 
 #include "am/halfint.h"
 

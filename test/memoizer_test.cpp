@@ -1,12 +1,12 @@
 /******************************************************************************
-  
+
   Created by M. A. Caprio, 2/23/11.
   Patch include path 7/4/16.
 
 ******************************************************************************/
 
-#include "memoizer.h"
-#include "profiling.h"
+#include "mcutils/memoizer.h"
+#include "mcutils/profiling.h"
 
 #include <iostream>
 #include "am/halfint.h"
@@ -37,7 +37,7 @@ int g(int i)
 	static mcutils::Memoizer<int,int> m;
 
 	return MEMOIZE(m, i, (cout << "(" << i << ")", i*i));
-	
+
 }
 
 int factorial_disabled(int i)
@@ -46,11 +46,11 @@ int factorial_disabled(int i)
 	static mcutils::Memoizer<int,int> m;
 	m.EnableCaching(false);
 
-	if (i==0) 
+	if (i==0)
 		return 1;
 	else
 		return MEMOIZE(m, i, (cout << "(" << i << ")",i*factorial_disabled(i-1)) );
-	
+
 }
 
 int factorial_cached(int i)
@@ -58,21 +58,21 @@ int factorial_cached(int i)
 
 	static mcutils::Memoizer<int,int> m;
 
-	if (i==0) 
+	if (i==0)
 		return 1;
 	else
 		return MEMOIZE(m, i, (cout << "(" << i << ")", i*factorial_cached(i-1)) );
-	
+
 }
 
 int factorial_dump(int i)
 {
 
 	static mcutils::Memoizer<int,int> m;
-	
+
 	int v;
 
-	if (i==0) 
+	if (i==0)
 		v = 1;
 	else
 		v = MEMOIZE(m, i, (i*factorial_dump(i-1)) );
@@ -87,11 +87,11 @@ int factorial_dump(int i)
 int factorial_plain_timing(int i)
 {
 
-	if (i==0) 
+	if (i==0)
 		return 1;
 	else
 		return (i*factorial_plain_timing(i-1));
-	
+
 }
 
 int factorial_disabled_timing(int i)
@@ -99,11 +99,11 @@ int factorial_disabled_timing(int i)
 
 	static mcutils::Memoizer<int,int> m(false);
 
-	if (i==0) 
+	if (i==0)
 		return 1;
 	else
 		return MEMOIZE(m, i, (i*factorial_disabled_timing(i-1)) );
-	
+
 }
 
 int factorial_cached_timing(int i)
@@ -111,11 +111,11 @@ int factorial_cached_timing(int i)
 
 	static mcutils::Memoizer<int,int> m;
 
-	if (i==0) 
+	if (i==0)
 		return 1;
 	else
 		return MEMOIZE(m, i, (i*factorial_cached_timing(i-1)) );
-	
+
 }
 
 int main(int argc, char **argv)
@@ -179,7 +179,7 @@ int main(int argc, char **argv)
 		x+= factorial_cached_timing(i);
 	t.Stop();
 	cout << "Time with caching: " << t.ElapsedTime() << ",  result " << x  << endl;
-	
+
 	// On mac 2/23/11:
 	// for n_max = 10000;
 	// Time without caching: 0.469,  result -125961703
@@ -190,4 +190,4 @@ int main(int argc, char **argv)
 	return 0;
 }
 
-		
+

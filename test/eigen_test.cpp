@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-#include "eigen.h"
+#include "mcutils/eigen.h"
 
 void const_test(const Eigen::MatrixXd& matrix)
 {
