@@ -116,6 +116,9 @@ namespace mcutils
     )
   // Get next non-blank, non-comment line.
   //
+  // Comment lines are those with a comment character ('#' or '!') as the first
+  // nonwhitespace character.
+  //
   // Note: This is an almost drop-in replacement for std::getline(), with
   // additional line_count argument.
   //
@@ -154,7 +157,7 @@ namespace mcutils
   std::vector<std::string> TokenizeString(const std::string& str);
   // Break a string of space-separated keywords into separate strings.
   //
-  // Ignores any tokens following the comment character '#'.
+  // Ignores any tokens following a comment character ('#' or '!').
   //
   // Arguments:
   //   str (std::string): input string
