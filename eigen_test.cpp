@@ -34,5 +34,5 @@ int main(int argc, char **argv)
   std::cout << matrix << std::endl;
 
   // termination
-  std::exit(EXIT_SUCCESS);
+  return EXIT_SUCCESS;
 }

@@ -81,5 +81,5 @@ int main(int argc, char **argv)
 
 
   // termination
-  std::exit(EXIT_SUCCESS);
+  return EXIT_SUCCESS;
 }
