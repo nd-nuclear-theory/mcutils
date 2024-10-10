@@ -5,7 +5,7 @@
 project_name := mcutils
 
 ################################################################
-# modules -- list of directories in which to search 
+# modules -- list of directories in which to search
 # for module.mk include files
 ################################################################
 
@@ -17,9 +17,8 @@ project_name := mcutils
 # course, they are only template libraries, so nobody needs to link to
 # them).
 
-modules += . ../am ../fmt
-
-MAKEFILE_STANDALONE = true
+src_library_dir = ./
+modules += ./test ./mcutils ../am/am ../fmt
 
 ################################################################
 # extras -- list of extra files to be included
